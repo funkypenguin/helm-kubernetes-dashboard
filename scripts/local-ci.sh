@@ -5,7 +5,7 @@ set -x
 
 find helm-chart -mindepth 1 -maxdepth 1 -type d | while read chart; do
   # Test basic helm syntax
-  echo helm lint $chart
+  helm lint $chart
 
   # Test Kubernetes manifest syntaxes
   rm -rf manifests
