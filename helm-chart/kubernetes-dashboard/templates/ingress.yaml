@@ -18,6 +18,7 @@ metadata:
   annotations:
 {{ toYaml .Values.ingress.annotations | indent 4 }}
 {{- end }}
+  namespace: {{ .Release.Namespace }}
 spec:
   rules:
   {{- if .Values.ingress.hosts }}
