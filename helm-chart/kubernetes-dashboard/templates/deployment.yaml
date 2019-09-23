@@ -110,7 +110,7 @@ spec:
       volumes:
       - name: kubernetes-dashboard-certs
         secret:
-          secretName: {{ template "kubernetes-dashboard.fullname" . }}
+          secretName: {{ template "kubernetes-dashboard.fullname" . }}-certs
       - name: tmp-volume
         emptyDir: {}
     {{- if .Values.tolerations }}

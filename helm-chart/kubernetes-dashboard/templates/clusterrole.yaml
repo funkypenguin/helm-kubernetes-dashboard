@@ -7,7 +7,7 @@ metadata:
     chart: {{ template "kubernetes-dashboard.chart" . }}
     heritage: {{ .Release.Service }}
     release: {{ .Release.Name }}
-  name: "{{ template "kubernetes-dashboard.fullname" . }}-readonly"
+  name: "{{ template "kubernetes-dashboard.fullname" . }}"
   namespace: {{ .Release.Namespace }}
 rules:
   # Allow Metrics Scraper to get metrics from the Metrics server
