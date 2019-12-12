@@ -142,7 +142,7 @@ spec:
         k8s-app: dashboard-metrics-scraper
       annotations:
         # Disable Istio sidecar for metrics-scraper (it doesn't seem to work)
-        sidecar.istio.io/inject: false     
+        sidecar.istio.io/inject: "false"     
     spec:
       containers:
         - name: dashboard-metrics-scraper
