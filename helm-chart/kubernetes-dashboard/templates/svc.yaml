@@ -48,7 +48,7 @@ metadata:
   namespace: kubernetes-dashboard
 spec:
   ports:
-    - name: "http-metrics-scraper"
+    - name: "http"
       port: 8000
       targetPort: 8000
   selector:

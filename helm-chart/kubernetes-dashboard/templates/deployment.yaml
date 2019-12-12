@@ -146,7 +146,7 @@ spec:
           image: "{{ .Values.metrics_scraper.image.repository }}:{{ .Values.metrics_scraper.image.tag }}"
           ports:
             - containerPort: 8000
-              name: http-metrics-scraper
+              name: http
               protocol: TCP
           livenessProbe:
             httpGet:
