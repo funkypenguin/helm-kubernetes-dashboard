@@ -139,10 +139,7 @@ spec:
   template:
     metadata:
       labels:
-        k8s-app: dashboard-metrics-scraper
-      annotations:
-        # Disable Istio sidecar for metrics-scraper (it doesn't seem to work)
-        sidecar.istio.io/inject: "false"     
+        k8s-app: dashboard-metrics-scraper 
     spec:
       containers:
         - name: dashboard-metrics-scraper
