@@ -5,7 +5,7 @@
 
 image:
   repository: kubernetesui/dashboard
-  tag: v2.0.0-beta4
+  tag: v2.0.0-rc5
   pullPolicy: IfNotPresent
   pullSecrets: []
 
@@ -14,7 +14,7 @@ replicaCount: 1
 metrics_scraper:
   image:
     repository: kubernetesui/metrics-scraper
-    tag: v1.0.2
+    tag: v1.0.3
 ## Here annotations can be added to the kubernetes dashboard deployment
 annotations: {}
 ## Here labels can be added to the kubernetes dashboard deployment
