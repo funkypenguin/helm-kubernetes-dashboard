@@ -1,9 +1,10 @@
 name: Lint and Test Charts
 
 on: 
-  pull_request:
+  push:
     paths:
-      - 'helm-chart/**.yaml'
+      - 'charts/**'   
+      - '.github/**'            
 
 jobs:
   lint-test:
