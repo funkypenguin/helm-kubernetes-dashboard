@@ -3,7 +3,7 @@ apiVersion: policy/v1beta1
 kind: PodDisruptionBudget
 metadata:
   labels:
-    app: {{ template "kubernetes-dashboard.name" . }}
+    k8s-app: {{ template "kubernetes-dashboard.name" . }}
     chart: {{ template "kubernetes-dashboard.chart" . }}
     heritage: {{ .Release.Service }}
     release: {{ .Release.Name }}
@@ -19,5 +19,5 @@ spec:
   {{- end  }}
   selector:
     matchLabels:
-      app: {{ template "kubernetes-dashboard.name" . }}
+      k8s-app: {{ template "kubernetes-dashboard.name" . }}
 {{- end -}}

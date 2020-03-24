@@ -4,14 +4,14 @@ kind: NetworkPolicy
 metadata:
   name: {{ template "kubernetes-dashboard.fullname" . }}
   labels:
-    app: {{ template "kubernetes-dashboard.name" . }}
+    k8s-app: {{ template "kubernetes-dashboard.name" . }}
     chart: {{ template "kubernetes-dashboard.chart" . }}
     release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
 spec:
   podSelector:
     matchLabels:
-      app: {{ template "kubernetes-dashboard.name" . }}
+      k8s-app: {{ template "kubernetes-dashboard.name" . }}
       release: {{ .Release.Name }}
   ingress:
   - ports:

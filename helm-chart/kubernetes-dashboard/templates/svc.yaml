@@ -3,7 +3,7 @@ kind: Service
 metadata:
   name: {{ template "kubernetes-dashboard.fullname" . }}
   labels:
-    app: {{ template "kubernetes-dashboard.name" . }}
+    k8s-app: {{ template "kubernetes-dashboard.name" . }}
     chart: {{ template "kubernetes-dashboard.chart" . }}
     release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
@@ -35,7 +35,7 @@ spec:
 {{ toYaml .Values.service.loadBalancerSourceRanges | indent 4 }}
 {{- end }}
   selector:
-    app: {{ template "kubernetes-dashboard.name" . }}
+    k8s-app: {{ template "kubernetes-dashboard.name" . }}
     release: {{ .Release.Name }}
 ---
 
@@ -43,8 +43,12 @@ kind: Service
 apiVersion: v1
 metadata:
   labels:
-    k8s-app: dashboard-metrics-scraper
-  name: dashboard-metrics-scraper
+    k8s-app: {{ template "kubernetes-dashboard.name" . }}-metrics-scraper
+    chart: {{ template "kubernetes-dashboard.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+    kubernetes.io/cluster-service: "true"    
+  name: {{ template "kubernetes-dashboard.fullname" . }}-metrics-scraper
   namespace: {{ .Release.Namespace }}
 spec:
   ports:
@@ -52,5 +56,5 @@ spec:
       port: 8000
       targetPort: 8000
   selector:
-    k8s-app: dashboard-metrics-scraper
+    k8s-app: {{ template "kubernetes-dashboard.fullname" . }}-metrics-scraper
 

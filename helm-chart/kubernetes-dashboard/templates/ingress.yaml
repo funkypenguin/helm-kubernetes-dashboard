@@ -7,7 +7,7 @@ kind: Ingress
 metadata:
   name: {{ template "kubernetes-dashboard.fullname" . }}
   labels:
-    app: {{ template "kubernetes-dashboard.name" . }}
+    k8s-app: {{ template "kubernetes-dashboard.name" . }}
     chart: {{ template "kubernetes-dashboard.chart" . }}
     release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}

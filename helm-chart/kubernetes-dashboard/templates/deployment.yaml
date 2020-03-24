@@ -7,7 +7,7 @@ metadata:
 {{ toYaml .Values.annotations | indent 4 }}
 {{- end }}
   labels:
-    app: {{ template "kubernetes-dashboard.name" . }}
+    k8s-app: {{ template "kubernetes-dashboard.name" . }}
     chart: {{ template "kubernetes-dashboard.chart" . }}
     release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
@@ -17,6 +17,7 @@ metadata:
   namespace: {{ .Release.Namespace }}
 spec:
   replicas: {{ .Values.replicaCount }}
+  revisionHistoryLimit: 10
   strategy:
     rollingUpdate:
       maxSurge: 0
@@ -24,7 +25,7 @@ spec:
     type: RollingUpdate
   selector:
     matchLabels:
-      app: {{ template "kubernetes-dashboard.name" . }}
+      k8s-app: {{ template "kubernetes-dashboard.name" . }}
       release: {{ .Release.Name }}
   template:
     metadata:
@@ -33,7 +34,7 @@ spec:
 {{ toYaml .Values.podAnnotations | indent 8 }}
     {{- end }}
       labels:
-        app: {{ template "kubernetes-dashboard.name" . }}
+        k8s-app: {{ template "kubernetes-dashboard.name" . }}
         release: {{ .Release.Name }}
     spec:
       {{- if .Values.securityContext }}
@@ -127,22 +128,22 @@ kind: Deployment
 apiVersion: apps/v1
 metadata:
   labels:
-    k8s-app: dashboard-metrics-scraper
-  name: dashboard-metrics-scraper
+    k8s-app: {{ template "kubernetes-dashboard.fullname" . }}-metrics-scraper
+  name: {{ template "kubernetes-dashboard.fullname" . }}-metrics-scraper
   namespace: {{ .Release.Namespace }}
 spec:
   replicas: 1
   revisionHistoryLimit: 10
   selector:
     matchLabels:
-      k8s-app: dashboard-metrics-scraper
+      k8s-app: {{ template "kubernetes-dashboard.fullname" . }}-metrics-scraper
   template:
     metadata:
       labels:
-        k8s-app: dashboard-metrics-scraper 
+        k8s-app: {{ template "kubernetes-dashboard.fullname" . }}-metrics-scraper 
     spec:
       containers:
-        - name: dashboard-metrics-scraper
+        - name: {{ .Chart.Name }}-metrics-scraper
           image: "{{ .Values.metrics_scraper.image.repository }}:{{ .Values.metrics_scraper.image.tag }}"
           ports:
             - containerPort: 8000
@@ -163,7 +164,7 @@ spec:
             readOnlyRootFilesystem: true
             runAsUser: 1001
             runAsGroup: 2001            
-      serviceAccountName: kubernetes-dashboard
+      serviceAccountName: {{ template "kubernetes-dashboard.serviceAccountName" . }}
       # Comment the following tolerations if Dashboard must not be deployed on master
       # Deploying to a master node breaks istio, so disabled by default. We can
       # make this optional with a values.yaml entry eventually
