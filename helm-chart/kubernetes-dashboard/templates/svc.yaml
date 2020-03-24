@@ -45,7 +45,7 @@ metadata:
   labels:
     k8s-app: dashboard-metrics-scraper
   name: dashboard-metrics-scraper
-  namespace: kubernetes-dashboard
+  namespace: {{ .Release.Namespace }}
 spec:
   ports:
     - name: "http"
