@@ -2,3 +2,4 @@
 
 lint-conf: .ci/lint-config.yaml
 check-version-increment: false
+all: true

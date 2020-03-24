@@ -22,7 +22,6 @@ annotations: {}
 labels: {}
 # kubernetes.io/name: "Kubernetes Dashboard"
 
-
 ## Enable possibility to skip login
 enableSkipLogin: false
 
@@ -73,7 +72,6 @@ tolerations: []
 ## Affinity
 ## ref: https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#affinity-and-anti-affinity
 affinity: {}
-
 
 service:
   type: ClusterIP
@@ -128,7 +126,6 @@ ingress:
   #   nginx.ingress.kubernetes.io/secure-backends: "true"
   ## if you use ingress-nginx >= 0.21.0
   #   nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
-
 
   ## Kubernetes Dashboard Ingress paths
   ##
@@ -190,7 +187,6 @@ podDisruptionBudget:
   enabled: false
   minAvailable:
   maxUnavailable:
-
 
 ## PodSecurityContext for pod level securityContext
 ##
