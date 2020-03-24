@@ -7,6 +7,8 @@
 [discordurl]: http://chat.funkypenguin.co.nz
 [patreonurl]: https://patreon.com/funkypenguin
 [blogurl]: https://www.funkypenguin.co.nz
+[githuburl]: https://github.com/funkypenguin
+[sponsorurl]: https://github.com/sponsors/funkypenguin
 
 [![geek-cookbook](https://raw.githubusercontent.com/funkypenguin/www.funkypenguin.co.nz/master/images/geek-kitchen-banner.png)][cookbookurl]
 
@@ -21,8 +23,10 @@
 
 ---
 
-This helm chart is maintained by [Funky Penguin's Geek Cookbook][cookbookurl], a collection of "recipes" to run popular applications
-on Docker Swarm or Kubernetes, in a cheeky, geek format.
+This helm chart is maintained with ❤️ by [@funkypenguin][githuburl], internet-famous for creating [Funky Penguin's Geek Cookbook][cookbookurl].
+
+[Funky Penguin's Geek Cookbook][cookbookurl] is a collection of "recipes" to run popular applications
+on Docker Swarm or Kubernetes, in a cheeky, geeky format.
 
 Got more details at:
 * ![Discourse with us!](https://img.shields.io/discourse/https/discourse.geek-kitchen.funkypenguin.co.nz/topics.svg) [Forums][kitchenurl]
