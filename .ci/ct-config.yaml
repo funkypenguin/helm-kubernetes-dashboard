@@ -1,5 +1,12 @@
 # This file defines the config for "ct" (chart tester) used by the helm linting GitHub workflow
 
 lint-conf: .ci/lint-config.yaml
+
+# Check whether we've bumped the version properly
 check-version-increment: false
+
+# Test all charts found
 all: true
+
+# Test that we can smoothly upgrade from previous version
+upgrade: true
