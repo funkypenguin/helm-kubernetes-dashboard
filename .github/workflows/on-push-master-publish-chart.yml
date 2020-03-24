@@ -28,15 +28,15 @@ jobs:
     #     # The folder in which the helm charts are located
     #     charts-folder: charts
 
-      - name: Configure Git
-        run: |
-          git config user.name "$GITHUB_ACTOR"
-          git config user.email "$GITHUB_ACTOR@users.noreply.github.com"
+    - name: Configure Git
+      run: |
+        git config user.name "$GITHUB_ACTOR"
+        git config user.email "$GITHUB_ACTOR@users.noreply.github.com"
 
-      - name: Run chart-releaser
-        uses: helm/chart-releaser-action@v1.0.0-rc.1
-        env:
-          CR_TOKEN: "${{ secrets.CR_TOKEN }}"
+    - name: Run chart-releaser
+      uses: helm/chart-releaser-action@v1.0.0-rc.1
+      env:
+        CR_TOKEN: "${{ secrets.CR_TOKEN }}"
 
     # - name: Discord notification
     #   env:
