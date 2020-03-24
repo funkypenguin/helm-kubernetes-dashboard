@@ -73,7 +73,7 @@ spec:
           protocol: TCP
 {{- end }}
         volumeMounts:
-        - name: kubernetes-dashboard-certs
+        - name: {{ .Release.Name }}-certs
           mountPath: /certs
           # Create on-disk volume to store exec logs
         - mountPath: /tmp
