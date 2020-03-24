@@ -1,0 +1,35 @@
+name: Lint and Test Charts
+
+on: 
+  pull_request:
+    paths:
+      - 'helm-chart/**.yaml'
+
+jobs:
+  lint-test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v1
+          
+      - name: Run chart-testing (lint)
+        id: lint
+        uses: funkypenguin/chart-testing-action@master
+        with:
+          # sadly, can't use this yet until chart-testing-action updates to v2
+          image: quay.io/helmpack/chart-testing:v3.0.0-beta.1
+          config: .ci/ct-config.yaml
+          command: lint
+
+      - name: Create kind cluster
+        uses: helm/kind-action@v1.0.0-alpha.3
+        with:
+          install_local_path_provisioner: true
+        # Only build a kind cluster if there are chart changes to test.
+        if: steps.lint.outputs.changed == 'true'
+
+      - name: Run chart-testing (install)
+        uses: funkypenguin/chart-testing-action@master
+        with:
+          command: install
+          config: .ci/ct-config.yaml
