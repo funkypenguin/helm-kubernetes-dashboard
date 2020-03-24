@@ -15,10 +15,8 @@ jobs:
           
       - name: Run chart-testing (lint)
         id: lint
-        uses: funkypenguin/chart-testing-action@master
+        uses: helm/chart-testing-action@v1.0.0-rc.1
         with:
-          # sadly, can't use this yet until chart-testing-action updates to v2
-          image: quay.io/helmpack/chart-testing:v3.0.0-beta.1
           config: .ci/ct-config.yaml
           command: lint
 
@@ -30,7 +28,7 @@ jobs:
         if: steps.lint.outputs.changed == 'true'
 
       - name: Run chart-testing (install)
-        uses: funkypenguin/chart-testing-action@master
+        uses: helm/chart-testing-action@v1.0.0-rc.1
         with:
           command: install
           config: .ci/ct-config.yaml
