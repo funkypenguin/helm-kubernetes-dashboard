@@ -19,25 +19,35 @@ jobs:
     #   id: installhelm3
     #   with:
     #     version: 'v3.0.3'
-    - name: Publish helm charts
-      uses: funkypenguin/helm-gh-pages-action@v1.1.1
-      with:
-        # A personal access token needed to push your site after it has been built.
-        access-token: ${{ secrets.CR_TOKEN }}
-        # The branch expected by GitHub to have the static files needed for your site.
-        deploy-branch: chart
-        # The folder in which the helm charts are located
-        charts-folder: charts
+    # - name: Publish helm charts
+    #   uses: funkypenguin/helm-gh-pages-action@v1.1.1
+    #   with:
+    #     # A personal access token needed to push your site after it has been built.
+    #     access-token: ${{ secrets.CR_TOKEN }}
+    #     # The branch expected by GitHub to have the static files needed for your site.
+    #     deploy-branch: chart
+    #     # The folder in which the helm charts are located
+    #     charts-folder: charts
 
-    # - name: Configure Git
-    #   run: |
-    #     git config user.name "$GITHUB_ACTOR"
-    #     git config user.email "$GITHUB_ACTOR@users.noreply.github.com"
+    - name: Fetch history
+      run: git fetch --prune --unshallow
 
-    # - name: Run chart-releaser
-    #   uses: helm/chart-releaser-action@v1.0.0-rc.1
-    #   env:
-    #     CR_TOKEN: "${{ secrets.CR_TOKEN }}"
+    - name: Configure Git
+      run: |
+        git config user.name "$GITHUB_ACTOR"
+        git config user.email "$GITHUB_ACTOR@users.noreply.github.com"
+
+    # See https://github.com/helm/chart-releaser-action/issues/6
+    - name: Install Helm
+      run: |
+        curl -fsSLo get_helm.sh https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3
+        chmod 700 get_helm.sh
+        ./get_helm.sh
+
+    - name: Run chart-releaser
+      uses: helm/chart-releaser-action@v1.0.0-rc.1
+      env:
+        CR_TOKEN: "${{ secrets.CR_TOKEN }}"
 
     # - name: Discord notification
     #   env:
