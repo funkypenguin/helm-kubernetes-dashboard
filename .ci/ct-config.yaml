@@ -10,7 +10,3 @@ all: true
 
 # Test that we can smoothly upgrade from previous version
 upgrade: true
-
-# It's unfortunately necessary to always create the release named "kubernetes-dashboard"
-# Since at present the app uses hard-coded secret names (https://github.com/kubernetes/dashboard/issues/4134)
-release-label: kubernetes-dashboard
