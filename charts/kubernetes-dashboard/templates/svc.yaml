@@ -48,7 +48,7 @@ metadata:
     release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
     kubernetes.io/cluster-service: "true"    
-  name: {{ template "kubernetes-dashboard.fullname" . }}-metrics-scraper
+  name: dashboard-metrics-scraper
   namespace: {{ .Release.Namespace }}
 spec:
   ports:
