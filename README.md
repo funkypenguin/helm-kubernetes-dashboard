@@ -1,7 +1,7 @@
 ![Lint and Test Charts](https://github.com/funkypenguin/helm-kubernetes-dashboard/workflows/Lint%20and%20Test%20Charts/badge.svg?branch=master)
 
 [cookbookurl]: https://geek-cookbook.funkypenguin.co.nz
-[kitchenurl]: https://discourse.kitchen.funkypenguin.co.nz
+[kitchenurl]: https://discourse.geek-kitchen.funkypenguin.co.nz
 [discordurl]: http://chat.funkypenguin.co.nz
 [patreonurl]: https://patreon.com/funkypenguin
 [blogurl]: https://www.funkypenguin.co.nz
