@@ -52,8 +52,7 @@ metadata:
   namespace: {{ .Release.Namespace }}
 spec:
   ports:
-    - name: "http"
-      port: 8000
+    - port: 8000
       targetPort: 8000
   selector:
     k8s-app: {{ template "kubernetes-dashboard.fullname" . }}-metrics-scraper
