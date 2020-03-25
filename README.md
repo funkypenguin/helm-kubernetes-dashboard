@@ -1,6 +1,4 @@
-# helm-kubernetes-dashboard
-
-![.github/workflows/on-push-master-publish-chart.yml](https://github.com/funkypenguin/helm-kubernetes-dashboard/workflows/.github/workflows/on-push-master-publish-chart.yml/badge.svg?branch=master)
+![Lint and Test Charts](https://github.com/funkypenguin/helm-kubernetes-dashboard/workflows/Lint%20and%20Test%20Charts/badge.svg?branch=master)
 
 [cookbookurl]: https://geek-cookbook.funkypenguin.co.nz
 [kitchenurl]: https://discourse.kitchen.funkypenguin.co.nz
@@ -12,7 +10,6 @@
 
 [![geek-cookbook](https://raw.githubusercontent.com/funkypenguin/www.funkypenguin.co.nz/master/images/geek-kitchen-banner.png)][cookbookurl]
 
-- [helm-kubernetes-dashboard](#helm-kubernetes-dashboard)
 - [What is funkypenguin/helm-kubernetes-dashboard?](#what-is-funkypenguinhelm-kubernetes-dashboard)
 - [How do I use funkypenguin/helm-kubernetes-dashboard?](#how-do-i-use-funkypenguinhelm-kubernetes-dashboard)
 - [Where to get help?](#where-to-get-help)
