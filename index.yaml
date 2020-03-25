@@ -1,0 +1,23 @@
+apiVersion: v1
+entries:
+  kubernetes-dashboard:
+  - apiVersion: v1
+    appVersion: 2.0.0-rc6
+    created: "2020-03-25T02:01:33.776169592Z"
+    description: General-purpose web UI for Kubernetes clusters
+    digest: f279c71af54b605b2e0f721616cc15f640fad023608c599dcab16c851b407ad3
+    home: https://github.com/kubernetes/dashboard
+    icon: https://raw.githubusercontent.com/kubernetes/kubernetes/master/logo/logo.svg
+    keywords:
+    - kubernetes
+    - dashboard
+    maintainers:
+    - email: davidy@funkypenguin.co.nz
+      name: funkypenguin
+    name: kubernetes-dashboard
+    sources:
+    - https://github.com/kubernetes/dashboard
+    urls:
+    - kubernetes-dashboard-2.0.0-rc6.tgz
+    version: 2.0.0-rc6
+generated: "2020-03-25T02:01:33.774319867Z"
