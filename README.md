@@ -43,9 +43,9 @@ Add the repo to helm, like this:
 
 Create a namespace (e.g. `kubectl create namespace kubernetes-dashboard`)
 
-And then install kubernetes-dashboard with something like:
+And then install kubernetes-dashboard with something like (`--devel` is necessary until the upstream app reaches 2.0.0 stable):
 
-`helm install -n kubernetes-dashboard kubernetes-dashboard kubernetes-dashboard`
+`helm install -n kubernetes-dashboard kubernetes-dashboard kubernetes-dashboard --devel`
 
 # Where to get help?
 
