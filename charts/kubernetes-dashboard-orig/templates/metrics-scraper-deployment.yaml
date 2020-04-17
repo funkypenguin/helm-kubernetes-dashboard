@@ -1,0 +1,59 @@
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  labels:
+    k8s-app: {{ template "kubernetes-dashboard.fullname" . }}-metrics-scraper
+  name: {{ template "kubernetes-dashboard.fullname" . }}-metrics-scraper
+  namespace: {{ .Release.Namespace }}
+spec:
+  replicas: 1
+  revisionHistoryLimit: 10
+  selector:
+    matchLabels:
+      k8s-app: {{ template "kubernetes-dashboard.fullname" . }}-metrics-scraper
+  template:
+    metadata:
+      labels:
+        k8s-app: {{ template "kubernetes-dashboard.fullname" . }}-metrics-scraper 
+    spec:
+      containers:
+        - name: {{ .Chart.Name }}-metrics-scraper
+          image: "{{ .Values.metrics_scraper.image.repository }}:{{ .Values.metrics_scraper.image.tag }}"
+          imagePullPolicy: {{ .Values.metrics_scraper.image.pullPolicy }}
+          ports:
+            - containerPort: 8000
+              name: http
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              scheme: HTTP
+              path: /
+              port: 8000
+            initialDelaySeconds: 30
+            timeoutSeconds: 30
+          volumeMounts:
+          - mountPath: /tmp
+            name: tmp-volume
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            runAsUser: 1001
+            runAsGroup: 2001            
+      serviceAccountName: {{ template "kubernetes-dashboard.serviceAccountName" . }}
+      # Comment the following tolerations if Dashboard must not be deployed on master
+      # Deploying to a master node breaks istio, so disabled by default. We can
+      # make this optional with a values.yaml entry eventually
+      # tolerations:
+      #   - key: node-role.kubernetes.io/master
+      #     effect: NoSchedule
+      volumes:
+        - name: tmp-volume
+          emptyDir: {}
+    {{- if .Values.tolerations }}
+      tolerations:
+{{ toYaml .Values.tolerations | indent 8 }}
+    {{- end }}
+    {{- if .Values.affinity }}
+      affinity:
+{{ toYaml .Values.affinity | indent 8 }}
+    {{- end }}          

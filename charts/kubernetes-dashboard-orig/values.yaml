@@ -1,17 +1,3 @@
-# Copyright 2020 The Kubernetes Authors.
-#
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-#     http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
-
 # Default values for kubernetes-dashboard
 # This is a YAML-formatted file.
 # Declare name/value pairs to be passed into your templates.
@@ -19,16 +5,28 @@
 
 image:
   repository: kubernetesui/dashboard
-  tag: v2.0.0-rc7
+  tag: v2.0.0-rc6
   pullPolicy: IfNotPresent
   pullSecrets: []
 
 replicaCount: 1
 
+metrics_scraper:
+  image:
+    repository: kubernetesui/metrics-scraper
+    tag: v1.0.3
 ## Here annotations can be added to the kubernetes dashboard deployment
 annotations: {}
 ## Here labels can be added to the kubernetes dashboard deployment
+##
 labels: {}
+# kubernetes.io/name: "Kubernetes Dashboard"
+
+## Enable possibility to skip login
+enableSkipLogin: false
+
+## Serve application over HTTP without TLS
+enableInsecureLogin: false
 
 ## Additional container arguments
 ##
@@ -44,8 +42,20 @@ extraEnv: []
 #   value: 'some value'
 
 # Annotations to be added to kubernetes dashboard pods
-podAnnotations:
-  seccomp.security.alpha.kubernetes.io/pod: 'runtime/default'
+## Recommended value
+# podAnnotations:
+#   seccomp.security.alpha.kubernetes.io/pod: 'runtime/default'
+podAnnotations: {}
+
+## SecurityContext for the kubernetes dashboard container
+## Recommended values
+# dashboardContainerSecurityContext:
+#   allowPrivilegeEscalation: false
+#   readOnlyRootFilesystem: true
+## The two values below can be set here or at podLevel (using variable .securityContext)
+#   runAsUser: 1001
+#   runAsGroup: 2001
+dashboardContainerSecurityContext: {}
 
 ## Node labels for pod assignment
 ## Ref: https://kubernetes.io/docs/user-guide/node-selection/
@@ -63,34 +73,39 @@ tolerations: []
 ## ref: https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#affinity-and-anti-affinity
 affinity: {}
 
-# priorityClassName: ""
-
-resources:
-  requests:
-    cpu: 100m
-    memory: 200Mi
-  limits:
-    cpu: 2
-    memory: 200Mi
-
-## Serve application over HTTP without TLS
-##
-## Note: If set to true, you may want to add --enable-insecure-login to extraArgs
-protocolHttp: false
-
 service:
   type: ClusterIP
   externalPort: 443
+
+  ## This allows an override of the heapster service name
+  ## Default: {{ .Chart.Name }}
+  ##
+  # nameOverride:
 
   # LoadBalancerSourcesRange is a list of allowed CIDR values, which are combined with ServicePort to
   # set allowed inbound rules on the security group assigned to the master load balancer
   # loadBalancerSourceRanges: []
 
-  ## Additional Kubernetes Dashboard Service annotations
+  ## Kubernetes Dashboard Service annotations
+  ##
+  ## For GCE ingress, the following annotation is required:
+  ## service.alpha.kubernetes.io/app-protocols: '{"https":"HTTPS"}' if enableInsecureLogin=false
+  ## or
+  ## service.alpha.kubernetes.io/app-protocols: '{"http":"HTTP"}' if enableInsecureLogin=true
   annotations: {}
 
   ## Here labels can be added to the Kubernetes Dashboard service
+  ##
   labels: {}
+  # kubernetes.io/name: "Kubernetes Dashboard"
+
+resources:
+  limits:
+    cpu: 100m
+    memory: 100Mi
+  requests:
+    cpu: 100m
+    memory: 100Mi
 
 ingress:
   ## If true, Kubernetes Dashboard Ingress will be created.
@@ -112,7 +127,6 @@ ingress:
   ## if you use ingress-nginx >= 0.21.0
   #   nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
 
-
   ## Kubernetes Dashboard Ingress paths
   ##
   paths:
@@ -133,50 +147,26 @@ ingress:
   #     hosts:
   #       - kubernetes-dashboard.domain.com
 
-## Metrics Scraper
-## Container to scrape, store, and retrieve a window of time from the Metrics Server.
-## refs: https://github.com/kubernetes-sigs/dashboard-metrics-scraper
-metricsScraper:
-  enabled: false
-  revisionHistoryLimit: 10
-  image:
-    repository: kubernetesui/metrics-scraper
-    tag: v1.0.3
-  resources: {}
-
-## Optional Metrics Server sub-chart
-## Enable this is you don't already have metrics-server enabled on your cluster and
-## want to use it with dashboard metrics-scraper
-## refs:
-##  - https://hub.helm.sh/charts/stable/metrics-server
-##  - https://github.com/kubernetes-sigs/metrics-server
-metrics-server:
-  enabled: false
-  ## Example for additional args
-  # args:
-  #  - --kubelet-preferred-address-types=InternalIP
-  #  - --kubelet-insecure-tls
-
 rbac:
-  # Specifies whether namespaced RBAC resources (Role, Rolebinding) should be created
+  # Specifies whether RBAC resources should be created
   create: true
 
-  # Specifies whether cluster-wide RBAC resources (ClusterRole, ClusterRolebinding) to access metrics should be created
-  # Independent from rbac.create parameter.
-  clusterRoleMetrics: true
+  # Specifies whether cluster-admin ClusterRole will be used for dashboard
+  # ServiceAccount (NOT RECOMMENDED).
+  clusterAdminRole: false
 
   # Start in ReadOnly mode.
   # Only dashboard-related Secrets and ConfigMaps will still be available for writing.
   #
-  # The basic idea of the clusterReadOnlyRole
+  # Turn OFF clusterAdminRole to use clusterReadOnlyRole.
+  #
+  # The basic idea of the clusterReadOnlyRole comparing to the clusterAdminRole
   # is not to hide all the secrets and sensitive data but more
   # to avoid accidental changes in the cluster outside the standard CI/CD.
   #
-  # It is NOT RECOMMENDED to use this version in production.
+  # Same as for clusterAdminRole, it is NOT RECOMMENDED to use this version in production.
   # Instead you should review the role and remove all potentially sensitive parts such as
   # access to persistentvolumes, pods/log etc.
-  #
-  # Independent from rbac.create parameter.
   clusterReadOnlyRole: false
 
 serviceAccount:
@@ -192,31 +182,17 @@ livenessProbe:
   # Number of seconds to wait for probe response
   timeoutSeconds: 30
 
-## podDisruptionBudget
-## ref: https://kubernetes.io/docs/tasks/run-application/configure-pdb/
 podDisruptionBudget:
+  # https://kubernetes.io/docs/tasks/run-application/configure-pdb/
   enabled: false
   minAvailable:
   maxUnavailable:
 
 ## PodSecurityContext for pod level securityContext
+##
 # securityContext:
 #   runAsUser: 1001
 #   runAsGroup: 2001
+securityContext: {}
 
-## SecurityContext for the kubernetes dashboard container
-dashboardContainerSecurityContext:
-  allowPrivilegeEscalation: false
-  readOnlyRootFilesystem: true
-  runAsUser: 1001
-  runAsGroup: 2001
-
-## SecurityContext for the dashboard metrics scraper container
-metricsScraperContainerSecurityContext:
-  allowPrivilegeEscalation: false
-  readOnlyRootFilesystem: true
-  runAsUser: 1001
-  runAsGroup: 2001
-
-networkPolicy:
-  enabled: false
+networkPolicy: false

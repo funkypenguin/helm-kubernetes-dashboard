@@ -1,0 +1,15 @@
+apiVersion: v1
+name: kubernetes-dashboard
+version: 2.0.0-rc7-fp1
+appVersion: 2.0.0-rc7
+description: General-purpose web UI for Kubernetes clusters
+keywords:
+- kubernetes
+- dashboard
+home: https://github.com/kubernetes/dashboard
+sources:
+- https://github.com/kubernetes/dashboard
+maintainers:
+- name: funkypenguin
+  email: davidy@funkypenguin.co.nz
+icon: https://raw.githubusercontent.com/kubernetes/kubernetes/master/logo/logo.svg
