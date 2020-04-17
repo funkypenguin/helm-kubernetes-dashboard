@@ -100,6 +100,19 @@ spec:
 {{- end }}
           initialDelaySeconds: {{ .Values.livenessProbe.initialDelaySeconds }}
           timeoutSeconds: {{ .Values.livenessProbe.timeoutSeconds }}
+        readinessProbe:
+          httpGet:
+{{- if .Values.protocolHttp }}
+            scheme: HTTP
+            path: /
+            port: 9090
+{{- else }}
+            scheme: HTTPS
+            path: /
+            port: 8443
+{{- end }}
+          initialDelaySeconds: {{ .Values.readinessProbe.initialDelaySeconds }}
+          timeoutSeconds: {{ .Values.readinessProbe.timeoutSeconds }}
 {{- with .Values.resources }}
         resources:
 {{ toYaml . | indent 10 }}
