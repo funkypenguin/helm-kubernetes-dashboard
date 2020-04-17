@@ -3,6 +3,31 @@ entries:
   kubernetes-dashboard:
   - apiVersion: v1
     appVersion: 2.0.0-rc7
+    created: "2020-04-17T02:03:41.693439818Z"
+    dependencies:
+    - condition: metrics-server.enabled
+      name: metrics-server
+      repository: https://kubernetes-charts.storage.googleapis.com/
+      version: 2.x.x
+    description: General-purpose web UI for Kubernetes clusters
+    digest: 657a77393c305758d0ab42b50c5991be684e7b6bf4ab70cffeac7119b6eb4b0b
+    home: https://github.com/kubernetes/dashboard
+    icon: https://raw.githubusercontent.com/kubernetes/kubernetes/master/logo/logo.svg
+    keywords:
+    - kubernetes
+    - dashboard
+    kubeVersion: '>=1.10.0-0'
+    maintainers:
+    - email: cdesaintmartin@wiremind.fr
+      name: desaintmartin
+    name: kubernetes-dashboard
+    sources:
+    - https://github.com/kubernetes/dashboard
+    urls:
+    - https://github.com/funkypenguin/helm-kubernetes-dashboard/releases/download/kubernetes-dashboard-2.0.0-rc7-fp3/kubernetes-dashboard-2.0.0-rc7-fp3.tgz
+    version: 2.0.0-rc7-fp3
+  - apiVersion: v1
+    appVersion: 2.0.0-rc7
     created: "2020-04-17T01:43:36.960385268Z"
     dependencies:
     - condition: metrics-server.enabled
