@@ -15,6 +15,7 @@
 - [Where to get help?](#where-to-get-help)
 
 
+
 ---
 
 This helm chart is maintained with ❤️ by [@funkypenguin][githuburl], internet-famous for creating [Funky Penguin's Geek Cookbook][cookbookurl].
