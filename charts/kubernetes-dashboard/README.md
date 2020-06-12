@@ -43,7 +43,7 @@ incompatible breaking change needing manual actions.
 
 ### Upgrade from 1.x.x to 2.x.x
 
-Version 2.0.0 is the first version hosted in the kubernetes/dashboard repository.
+Version 2.0.0 of this chart is the first version hosted in the kubernetes/dashboard.git repository. v1.x.x until 1.10.1 is hosted on https://github.com/helm/charts.
 
 - This version upgrades to kubernetes-dashboard v2.0.0 along with changes in RBAC management: all secrets are explicitely created and ServiceAccount do not have permission to create any secret. On top of that, it completely removes the `clusterAdminRole` parameter, being too dangerous. In order to upgrade, please update your configuration to remove `clusterAdminRole` parameter and uninstall/reinstall the chart.
 - It enables by default values for `podAnnotations` and `securityContext`, please disable them if you don't supoprt them
@@ -51,6 +51,7 @@ Version 2.0.0 is the first version hosted in the kubernetes/dashboard repository
 - It adds a `ProtocolHttp` parameter, allowing you to switch the backend to plain HTTP and replaces the old `enableSkipLogin` for the network part.
 - If `protocolHttp` is not set, it will automatically add to the `Ingress`, if enabled, annotations to support HTTPS backends for nginx-ingress and GKE Ingresses.
 - It updates all the labels to the new [recommended labels](https://github.com/helm/charts/blob/master/REVIEW_GUIDELINES.md#names-and-labels), most of them being immutable.
+- dashboardContainerSecurityContext has been renamed to containerSecurityContext.
 
 In order to upgrade, please update your configuration to remove `clusterAdminRole` parameter and adapt `enableSkipLogin`, `enableInsecureLogin`, `podAnnotations` and `securityContext` parameters, and uninstall/reinstall the chart.
 
@@ -93,6 +94,8 @@ Parameter                           | Description                               
 `ingress.hosts`                     | Dashboard Hostnames                                                                                                         | `nil`
 `ingress.tls`                       | Ingress TLS configuration                                                                                                    | `[]`
 `metricsScraper.enabled`            | Wether to enable dashboard-metrics-scraper                                                                                  | `false`
+`metricsScraper.image.repository`   | Repository for metrics-scraper image                                                                                        | `kubernetesui/metrics-scraper`
+`metricsScraper.image.tag`          | Repository for metrics-scraper image tag                                                                                    | `v1.0.4`
 `metrics-server.enabled`            | Wether to enable metrics-server                                                                                             | `false`
 `rbac.create`                       | Create & use RBAC resources                                                                                                 | `true`
 `rbac.clusterRoleMetrics`           | If set, an additional cluster role / role binding will be created to access metrics.                                        | `true`
@@ -108,6 +111,7 @@ Parameter                           | Description                               
 `dashboardContainerSecurityContext` | SecurityContext for the kubernetes dashboard container                                                                      | `{allowPrivilegeEscalation:false, readOnlyRootFilesystem: true, runAsUser: 1001, runAsGroup: 2001}`
 `metricsScraperContainerSecurityContext` | SecurityContext for the kubernetes dashboard metrics scraper container                                                 | `{allowPrivilegeEscalation:false, readOnlyRootFilesystem: true, runAsUser: 1001, runAsGroup: 2001}`
 `networkPolicy.enabled`                     | Whether to create a network policy that allows access to the service                                                        | `false`
+
 
 
 
